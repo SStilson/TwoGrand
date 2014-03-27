@@ -1,6 +1,16 @@
+function doClick() {
+    alert(foursquareData.contact);
+}
+
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
-var url = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74";
+var location = Ti.Geolocation.getCurrentPosition();
+
+var urlA = "https://api.foursquare.com/v2/venues/search?ll=";
+
+var urlB = String(location);
+
+var url = urlA.concat(urlB);
 
 var client = Ti.Network.createHTTPClient({
     onload: function() {
@@ -24,7 +34,7 @@ Ti.UI.backgroundColor = "white";
 
 var win = Ti.UI.createWindow();
 
-var tableData = [ foursquareData ];
+var tableData = [ foursquareData.name ];
 
 var table = Ti.UI.createTableView({
     data: tableData

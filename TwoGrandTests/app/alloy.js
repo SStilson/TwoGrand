@@ -10,7 +10,14 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 
-var url = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74";
+// Get the current location
+var location = Ti.Geolocation.getCurrentPosition();
+
+// Input location into the url
+var urlA = "https://api.foursquare.com/v2/venues/search?ll=";
+var urlB = String(location);
+var url = urlA.concat(urlB);
+
 var client = Ti.Network.createHTTPClient({
    // function called when the response data is available
         onload : function(e) {
@@ -41,7 +48,8 @@ function doClick(e) {
 Ti.UI.backgroundColor = 'white';
 var win = Ti.UI.createWindow();
 
-var tableData = [ foursquareData ];
+// Display restaurant names in a table
+var tableData = [ foursquareData.name ];
 
 var table = Ti.UI.createTableView({
   data: tableData
