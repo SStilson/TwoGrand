@@ -1,0 +1,23 @@
+Ti.UI.backgroundColor = 'white';
+var win = Ti.UI.createWindow();
+
+coords
+
+var requestNumber = JSONRequest.get(
+    "https://api.foursquare.com/v2/venues/search?ll=40.7,-74",
+    function (requestNumber, value, exception) {
+        if (value) {
+            processResponse(value);
+        } else {
+            processError(exception);
+        }
+    }
+); 
+
+var tableData = [ {title: 'Apples'}, {title: 'Bananas'}, {title: 'Carrots'}, {title: 'Potatoes'} ];
+
+var table = Ti.UI.createTableView({
+  data: tableData
+});
+win.add(table);
+win.open();
