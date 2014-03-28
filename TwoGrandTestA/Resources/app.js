@@ -8,6 +8,7 @@
 
 var url = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
 var foursquareData = null;
+var phoneList = [];
 var client = Ti.Network.createHTTPClient({
    // function called when the response data is available
         onload : function(e) {
@@ -24,10 +25,11 @@ var client = Ti.Network.createHTTPClient({
 		// Display restaurant names in a table
 		var tableData = [];
 		var venuesList = foursquareData.response.venues;
-		var phoneList = [];
+		
+		Ti.API.info("VenuesList: " + JSON.stringify(venuesList));
 	
 		for (var i=0; i<venuesList.length; i++){
-			tableData[i] = {title: venuesList[i].name};
+			var row = Ti.UI.createTableViewRow({title: venuesList[i].name});
 			if (venuesList[i].contact.hasOwnProperty('formattedPhone')) {
 				phoneList[i] = 'Phone: ' + venuesList[i].contact.formattedPhone;
 			}
@@ -37,7 +39,8 @@ var client = Ti.Network.createHTTPClient({
 			else {
 				phoneList[i] = 'No phone number available';
 			}
-			tableData[i].addEventListener('click',function(){alert(phoneList[i]);});
+			row.addEventListener('click',function(){alert(String('Phone: ' + phoneList[i]));});
+			tableData[i] = row;
 		};
   
 		var table = Ti.UI.createTableView({
