@@ -9,10 +9,8 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
-
 // Get the current location
 var location = Ti.Geolocation.getCurrentPosition();
-
 // Input location into the url
 var urlA = "https://api.foursquare.com/v2/venues/search?ll=";
 var urlB = String(location);
@@ -40,16 +38,17 @@ client.send();
 var foursquareData = JSON.parse(this.responseText);
 
 // Display phone number on click
-function doClick(e) {
-    alert(foursquareData.contact);
-}
+//function doClick(e) {
+    //alert(foursquareData.contact);
+//}
+
 
 // Create a table
 Ti.UI.backgroundColor = 'white';
 var win = Ti.UI.createWindow();
 
 // Display restaurant names in a table
-var tableData = [ foursquareData.name ];
+var tableData = [ 'Test name' ];
 
 var table = Ti.UI.createTableView({
   data: tableData
