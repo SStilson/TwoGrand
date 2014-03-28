@@ -14,9 +14,8 @@
 // Get the current location
 //var location = Ti.Geolocation.getCurrentPosition();
 // Input location into the url
-//var urlA = "https://api.foursquare.com/v2/venues/search?ll=";
-//var urlB = String(location);
-//var url = urlA.concat(urlB);
+
+//var url = "https://api.foursquare.com/v2/venues/search?ll="+location+"&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
 
 var url = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
 
@@ -28,8 +27,8 @@ var client = Ti.Network.createHTTPClient({
     },
     // function called when an error occurs, including a timeout
     onerror : function(e) {
-        //Ti.API.debug(e.error);
-        alert(e);
+        Ti.API.debug(e.error);
+        alert('error');
     },
     timeout : 5000  // in milliseconds
  });
@@ -47,14 +46,17 @@ function doClick(e) {
     alert('phone');
 }
 
-
 // Create a table
 Ti.UI.backgroundColor = 'white';
 var win = Ti.UI.createWindow();
 
 // Display restaurant names in a table
-var tableData = [ {title: 'Apples'}, {title: 'Bananas'}, {title: 'Carrots'}, {title: 'Potatoes'} ];
+var tableData = [];
 
+for (var i=1; i<=20; i++){
+  tableData[i] = {title: 'hi'};
+};
+  
 var table = Ti.UI.createTableView({
   data: tableData
 });
