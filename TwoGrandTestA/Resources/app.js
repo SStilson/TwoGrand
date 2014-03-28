@@ -1,5 +1,3 @@
-
-
 // A TableView displaying FourSquare restaurants in a specified area.
 
 
@@ -15,6 +13,8 @@ var client = Ti.Network.createHTTPClient({
         onload : function(e) {
         Ti.API.info("Received text: " + this.responseText);
         alert('success');
+        // Parse using JSON
+        var foursquareData = JSON.parse(this.responseText);
     },
     // function called when an error occurs, including a timeout
     onerror : function(e) {
@@ -29,9 +29,6 @@ client.open("GET", url);
 // Send the request.
 client.send();
 
-// Parse using JSON
-var foursquareData = JSON.parse(client.responseText);
-
 // Display phone number on click
 function doClick(e) {
     alert('phone');
@@ -45,7 +42,9 @@ var win = Ti.UI.createWindow();
 var tableData = [];
 
 for (var i=1; i<=20; i++){
-  tableData[i] = {title: 'hi'};
+	while (client.foursquareData.venues != null) {
+		  tableData[i] = {title: String(venues.name)};
+	};
 };
   
 var table = Ti.UI.createTableView({
