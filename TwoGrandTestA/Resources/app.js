@@ -39,7 +39,10 @@ var client = Ti.Network.createHTTPClient({
 			else {
 				phoneList[i] = 'No phone number available';
 			}
-			row.addEventListener('click',function(){alert(String('Phone: ' + phoneList[i]));});
+			function createListener(i) {
+				return function(){alert(phoneList[i]);};
+			}
+			row.addEventListener('click',createListener(i));
 			tableData[i] = row;
 		};
   
