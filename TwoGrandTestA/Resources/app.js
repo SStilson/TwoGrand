@@ -1,10 +1,14 @@
 // A TableView displaying FourSquare restaurants in a specified area.
+// Each restaurant will display a phone number (if available) when clicked.
 
 
-// Get the current location
-//var location = Ti.Geolocation.getCurrentPosition();
+// Get the current location: not working
+//myLat = null;
+//myLong = null;
+//Ti.Geolocation.purpose = "Receive User Location";
+//Ti.Geolocation.getCurrentPosition(function(){ myLat = this.LocationCoordinates.latitude; myLong = this.LocationCoordinates.longitude;});
 // Input location into the url
-//var url = "https://api.foursquare.com/v2/venues/search?ll="+location+"&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
+//var url = "https://api.foursquare.com/v2/venues/search?ll="+myLat+","+myLong+"&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
 
 var url = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
 var foursquareData = null;
@@ -29,7 +33,9 @@ var client = Ti.Network.createHTTPClient({
 		Ti.API.info("VenuesList: " + JSON.stringify(venuesList));
 	
 		for (var i=0; i<venuesList.length; i++){
+			// Add data to rows
 			var row = Ti.UI.createTableViewRow({title: venuesList[i].name});
+			// Configure a list for phone number information
 			if (venuesList[i].contact.hasOwnProperty('formattedPhone')) {
 				phoneList[i] = 'Phone: ' + venuesList[i].contact.formattedPhone;
 			}
@@ -42,6 +48,7 @@ var client = Ti.Network.createHTTPClient({
 			function createListener(i) {
 				return function(){alert(phoneList[i]);};
 			}
+			// Click functionality
 			row.addEventListener('click',createListener(i));
 			tableData[i] = row;
 		};
