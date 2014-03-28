@@ -7,14 +7,45 @@
 //var url = "https://api.foursquare.com/v2/venues/search?ll="+location+"&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
 
 var url = "https://api.foursquare.com/v2/venues/search?ll=40.7,-74&oauth_token=X4DPNJ0IMZLZZDNIJHMSAXEVB4WEJ4WTHUSM4A0DVW3D11QT&v=20140327";
-
+var foursquareData = null;
 var client = Ti.Network.createHTTPClient({
    // function called when the response data is available
         onload : function(e) {
         Ti.API.info("Received text: " + this.responseText);
         alert('success');
         // Parse using JSON
-        var foursquareData = JSON.parse(this.responseText);
+        foursquareData = JSON.parse(this.responseText);
+        Ti.API.info("foursquareData: " + JSON.stringify(foursquareData));
+        
+        // Create a table
+		Ti.UI.backgroundColor = 'white';
+		var win = Ti.UI.createWindow();
+		
+		// Display restaurant names in a table
+		var tableData = [];
+		var venuesList = foursquareData.response.venues;
+		var phoneList = [];
+	
+		for (var i=0; i<venuesList.length; i++){
+			tableData[i] = {title: venuesList[i].name};
+			if (venuesList[i].contact.hasOwnProperty('formattedPhone')) {
+				phoneList[i] = 'Phone: ' + venuesList[i].contact.formattedPhone;
+			}
+			else if (venuesList[i].contact.hasOwnProperty('phone')) {
+				phoneList[i] = 'Phone: ' + venuesList[i].contact.phone;
+			}
+			else {
+				phoneList[i] = 'No phone number available';
+			}
+			tableData[i].addEventListener('click',function(){alert(phoneList[i]);});
+		};
+  
+		var table = Ti.UI.createTableView({
+ 		data: tableData
+		});
+
+		win.add(table);
+		win.open();
     },
     // function called when an error occurs, including a timeout
     onerror : function(e) {
@@ -29,26 +60,4 @@ client.open("GET", url);
 // Send the request.
 client.send();
 
-// Display phone number on click
-function doClick(e) {
-    alert('phone');
-}
 
-// Create a table
-Ti.UI.backgroundColor = 'white';
-var win = Ti.UI.createWindow();
-
-// Display restaurant names in a table
-var tableData = [];
-
-for (var i=1; i<=20; i++){
-	while (client.foursquareData.venues != null) {
-		  tableData[i] = {title: String(venues.name)};
-	};
-};
-  
-var table = Ti.UI.createTableView({
-  data: tableData
-});
-win.add(table);
-win.open();
